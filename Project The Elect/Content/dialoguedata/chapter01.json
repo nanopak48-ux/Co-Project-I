@@ -1,0 +1,20 @@
+{
+  "chapter": 1,
+  "dialogues": [
+    {
+      "character": "Columbina",
+      "text": "Where am I?",
+      "profile": "Columbina"
+    },
+    {
+      "character": "Furina",
+      "text": "In hell.",
+      "profile": "Furina"
+    },
+    {
+      "character": "Tanjiro",
+      "text": "Dont cry bitch.",
+      "profile": "Tanjiro"   
+    }
+  ]
+}
