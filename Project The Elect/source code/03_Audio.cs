@@ -12,21 +12,8 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Animations;
 using MonoGame.Extended.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended;
-using MonoGame.Extended.Animations;
-using MonoGame.Extended.Graphics;
-using System;
-using System.Collections.Generic;
-using System;
+
 
 namespace Project_The_Elect.source_code
 {
@@ -37,10 +24,23 @@ namespace Project_The_Elect.source_code
         private float volume_fadeStep;
         private float volume_fadeDuration = 2f;
 
+        private string[] _sfxIndex = new string[]
+        {
+            "proceed",
+            "selected"
+        };
+        
+        private string[] _bgmIndex = new string[]
+        {
+            "home",
+            "dialogue"
+        };
+
         private List<SoundEffect> _SFX;
+        private SoundEffectInstance _currentVoiceline;
 
         private List<SoundEffect> _Voicelines;  
-        private Song bgm_home;
+        private List<Song> _BGM;
 
         private string prefix;
 
@@ -49,13 +49,28 @@ namespace Project_The_Elect.source_code
         public void LoadContent(ContentManager content)
         {
             _SFX = new List<SoundEffect>();
-            //_SFX.Add(content.Load<SoundEffect>("audio/sound_effect"));
-  
-            prefix = "audio/01_bgm/";
-            bgm_home = content.Load<Song>(prefix + "home_bgm");
+            _BGM = new List<Song>();
 
-            //LATER DELETE
-            LoadDialogueVoicelines(5,content);
+            for(int i = 0; i < _bgmIndex.Length; i++)
+            {
+                if (i < 10) prefix = "audio/01_bgm/bgm_0";
+                else prefix = "audio/01_bgm/bgm_";
+
+                string bgmPath = prefix + i.ToString() + "_" + _bgmIndex[i];
+                Song bgm = content.Load<Song>(bgmPath);
+                _BGM.Add(bgm);
+            }
+
+            for (int i = 0; i < _sfxIndex.Length; i++)
+            {
+                if(i < 10) prefix = "audio/02_sfx/sfx_0";
+                else prefix = "audio/02_sfx/sfx_";
+
+                string sfxPath = prefix + i.ToString() + "_" + _sfxIndex[i];
+                SoundEffect sfx = content.Load<SoundEffect>(sfxPath);
+                _SFX.Add(sfx);
+            }
+
         }
 
         public void LoadDialogueVoicelines(int dialoguelineIndex, ContentManager content)
@@ -68,27 +83,31 @@ namespace Project_The_Elect.source_code
 
                 SoundEffect voiceline = content.Load<SoundEffect>(voicelinePath);
                 _Voicelines.Add(voiceline);
+
             }
         }
-        public void PlayBGM(string bgmName)
+        public void PlayBGM(int bgmIndex)
         {
-
-            if (bgmName == "home")
+            if (bgmIndex >= 0 && bgmIndex < _BGM.Count)
             {
-                //MediaPlayer.Play(bgm_home);
-                //MediaPlayer.IsRepeating = true;
+                MediaPlayer.Play(_BGM[bgmIndex]);
+                MediaPlayer.IsRepeating = true;
             }
         }
 
-        public void PlayClick()
-        {
-            // Play sound effect based on the provided name
-            // Example: if (sfxName == "jump") { _SFX[0].Play(volume_sfx, 0f, 0f); }
-        }
 
         public void PlayVoicelines(int voicelineIndex)
         {
-            _Voicelines[voicelineIndex].Play();
+            _currentVoiceline?.Stop();
+
+            _currentVoiceline = _Voicelines[voicelineIndex].CreateInstance();
+
+            _currentVoiceline.Play();
+        }
+
+        public void PlaySFX(int sfxIndex)
+        {
+            _SFX[sfxIndex].Play();
         }
 
         public void VolumeControl(float bgmVolume, float sfxVolume)
@@ -97,8 +116,5 @@ namespace Project_The_Elect.source_code
             volume_sfx = sfxVolume;
             MediaPlayer.Volume = volume_bgm;
         }
-
-
-
     }
 }

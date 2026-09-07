@@ -11,17 +11,8 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended;
-using MonoGame.Extended.Animations;
-using MonoGame.Extended.Graphics;
-using System;
-using System.Collections.Generic;
-using Project_The_Elect.source_code;
 
-namespace Project_The_Elect
+namespace Project_The_Elect.source_code
 {
     public class StateHome : GameState
     {
@@ -79,6 +70,7 @@ namespace Project_The_Elect
         {
             if(Keyboard.GetState().IsKeyDown(Keys.Enter))
             {  
+                _audioManager.PlaySFX(1);
                 _gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, screenWidth, screenHeight));
             }
         }
@@ -87,9 +79,10 @@ namespace Project_The_Elect
         {
             if(!IsPlayingBGM)
             {
-                _audioManager.PlayBGM("home");
+                _audioManager.PlayBGM(0);
                 IsPlayingBGM = true;
             }
+            
             
         }
     }

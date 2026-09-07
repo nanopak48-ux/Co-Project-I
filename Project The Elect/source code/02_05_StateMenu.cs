@@ -1,32 +1,61 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 
 namespace Project_The_Elect.source_code
 {
     public class StateMenu : GameState
     {
+        private ContentManager _content;
+        private GameStateManager _gameStateManager;
+        private SpriteBatch _spriteBatch;
+        private GameAudioManager _audioManager;
+
+        private string _returnState;
+
+        private int screenWidth;
+        private int screenHeight;
+
+        public StateMenu(string InputState,ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager, int screenWidth, int screenHeight)
+        {
+
+            _returnState = InputState;
+            _content = content;
+            _gameStateManager = gameStateManager;
+            _spriteBatch = spriteBatch;
+            _audioManager = audioManager;
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
+        }
         public void Update(GameTime gameTime)
         {
-            // Update logic for menu state
+            InputHandler(gameTime);
         }
 
         public void Draw(GameTime gameTime)
         {
-            // Draw logic for menu state
+
         }
 
         public void InputHandler(GameTime gameTime)
         {
-            // Input handling logic for menu state
+            KeyboardState currentKeyboardState = Keyboard.GetState();
+
+            if (currentKeyboardState.IsKeyUp(Keys.M))
+            {
+                _gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, screenWidth, screenHeight));
+            }
         }
 
         public void AudioHandler(GameTime gameTime)
         {
-            // Audio handling logic for menu state
+
         }
     }
 }

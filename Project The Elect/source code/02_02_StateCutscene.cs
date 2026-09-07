@@ -11,20 +11,20 @@ namespace Project_The_Elect.source_code
         private bool Isnextscene = false;
         public void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            // Update logic for cutscene state
+
         }
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            // Draw logic for cutscene state
+
         }
 
         public void InputHandler(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            // Input handling logic for cutscene state
+
         }
         public void AudioHandler(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            // Audio handling logic for cutscene state
+
         }
     }
 }

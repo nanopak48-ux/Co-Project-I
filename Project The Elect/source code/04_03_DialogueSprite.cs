@@ -90,7 +90,7 @@ namespace Project_The_Elect.source_code
                 EaseInActive = true;
             }
 
-           // _spriteBatch.Draw(txtr_dialogueBG, new Rectangle((screenWidth - dialogueBGWidth) / 2, screenHeight * 5 / 7 - dialogueBGHeight / 4, dialogueBGWidth, dialogueBGHeight), Color.White);
+            _spriteBatch.Draw(txtr_dialogueBG, new Rectangle((screenWidth - dialogueBGWidth) / 2, screenHeight * 5 / 7 - dialogueBGHeight / 4, dialogueBGWidth, dialogueBGHeight), Color.White);
             EaseIn();
             _spriteBatch.Draw(spr_profile, spr_profilePos);
             
