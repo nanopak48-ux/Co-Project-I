@@ -38,9 +38,13 @@ namespace Project_The_Elect.source_code
         private float volume_fadeDuration = 2f;
 
         private List<SoundEffect> _SFX;
+
+        private List<SoundEffect> _Voicelines;  
         private Song bgm_home;
 
         private string prefix;
+
+        private bool _isvoicelinePlaying = false;
 
         public void LoadContent(ContentManager content)
         {
@@ -50,6 +54,21 @@ namespace Project_The_Elect.source_code
             prefix = "audio/01_bgm/";
             bgm_home = content.Load<Song>(prefix + "home_bgm");
 
+            //LATER DELETE
+            LoadDialogueVoicelines(5,content);
+        }
+
+        public void LoadDialogueVoicelines(int dialoguelineIndex, ContentManager content)
+        {
+            prefix = "audio/03_voiceline/dialogue/chap01_v0";
+            _Voicelines = new List<SoundEffect>();
+            for (int i = 1; i < dialoguelineIndex+1; i++)
+            {
+                string voicelinePath = prefix + i.ToString();
+
+                SoundEffect voiceline = content.Load<SoundEffect>(voicelinePath);
+                _Voicelines.Add(voiceline);
+            }
         }
         public void PlayBGM(string bgmName)
         {
@@ -57,7 +76,7 @@ namespace Project_The_Elect.source_code
             if (bgmName == "home")
             {
                 //MediaPlayer.Play(bgm_home);
-                MediaPlayer.IsRepeating = true;
+                //MediaPlayer.IsRepeating = true;
             }
         }
 
@@ -67,12 +86,19 @@ namespace Project_The_Elect.source_code
             // Example: if (sfxName == "jump") { _SFX[0].Play(volume_sfx, 0f, 0f); }
         }
 
+        public void PlayVoicelines(int voicelineIndex)
+        {
+            _Voicelines[voicelineIndex].Play();
+        }
+
         public void VolumeControl(float bgmVolume, float sfxVolume)
         {
             volume_bgm = bgmVolume;
             volume_sfx = sfxVolume;
             MediaPlayer.Volume = volume_bgm;
         }
+
+
 
     }
 }

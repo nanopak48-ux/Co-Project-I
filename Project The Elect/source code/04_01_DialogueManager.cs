@@ -28,12 +28,6 @@ namespace Project_The_Elect.source_code
             string json = File.ReadAllText(path);
 
             ChapterData chapter = JsonSerializer.Deserialize<ChapterData>(json);
-
-            if (chapter == null)
-            {
-                throw new Exception("Failed to load chapter.");
-            }
-
             _dialogues = chapter.dialogues;
 
             return chapter;

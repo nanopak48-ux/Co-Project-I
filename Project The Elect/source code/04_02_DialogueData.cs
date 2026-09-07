@@ -10,7 +10,7 @@ namespace Project_The_Elect.source_code
     {
         public string character { get; set; }
         public string text { get; set; }
-        public string profile { get; set; }
+        public string voiceline { get; set; }
     }
 
     public class ChapterData

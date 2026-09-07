@@ -4,17 +4,27 @@
     {
       "character": "Columbina",
       "text": "Where am I?",
-      "profile": "Columbina"
+      "voiceline": "chap01_v01"
     },
     {
       "character": "Furina",
       "text": "In hell.",
-      "profile": "Furina"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Tanjiro",
       "text": "Dont cry bitch.",
-      "profile": "Tanjiro"   
+      "voiceline": "chap01_v03"
+    },
+    {
+      "character": "Columbina",
+      "text": "YAHHHH",
+      "voiceline": "chap01_v04"
+    },
+    {
+      "character": "Tanjiro",
+      "text": "Karn and Fishe are gay.",
+      "voiceline": "chap01_v05"
     }
   ]
 }

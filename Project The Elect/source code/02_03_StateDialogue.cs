@@ -20,14 +20,22 @@ namespace Project_The_Elect
         private DialogueManager _dialogueManager;
         private DialogueSprite _dialoguesprite;
 
-        private int _currentDialogue = 0;
+        private int _currentDialogueIndex = 0;
+        private int _previousDialogueIndex = 0;
+
+        private bool _isNextDialogue = true;
+
         private ChapterData chapter;
         private DialogueData current;
+        private GameFontManager _fontManager;
+        private GameAudioManager _audioManager;
         private int screenWidth;
         private int screenHeight;
 
         private KeyboardState _previousKeyboardState;
         private MouseState _previousMouseState;
+
+        private bool _isPlayedVoiceline = false;
 
         public StateDialogue(ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager, int screenWidth, int screenHeight)
         {
@@ -41,12 +49,18 @@ namespace Project_The_Elect
             {
                 _dialogueManager._dialogues = chapter.dialogues;
             }
-            current = _dialogueManager.GetDialogue(_currentDialogue);
+            current = _dialogueManager.GetDialogue(_currentDialogueIndex);
+            _fontManager = new GameFontManager(content, spriteBatch);
+            _spriteBatch = spriteBatch;
+            _audioManager = audioManager;
         }    
 
         public void Update(GameTime gameTime)
         {
-            current = _dialogueManager.GetDialogue(_currentDialogue);
+            current = _dialogueManager.GetDialogue(_currentDialogueIndex);
+
+            _fontManager.Update(gameTime, current, _isNextDialogue);
+            if(_isNextDialogue) {_isNextDialogue = false;}
 
             InputHandler(gameTime);
             AudioHandler(gameTime);
@@ -55,8 +69,20 @@ namespace Project_The_Elect
         
         public void Draw(GameTime gameTime)
         {
+            _spriteBatch.Begin();
+            //DRAW PROFILE & BG
             _dialoguesprite.Draw(gameTime, current);
+
+            //DRAW TEXT
+            _fontManager.Draw(gameTime, current);
+            
+            //DRAW BUTTONS
+
+            _spriteBatch.End();
+
         }
+
+        
 
         public void InputHandler(GameTime gametime)
         {
@@ -68,9 +94,11 @@ namespace Project_The_Elect
 
             if (spacePressed || mouseClicked)
             {
-                if (_currentDialogue < _dialogueManager._dialogues.Count - 1)
+                if (_currentDialogueIndex < _dialogueManager._dialogues.Count - 1)
                 {
-                    _currentDialogue++;
+                    _currentDialogueIndex++;
+                    _isNextDialogue = true;
+                    _isPlayedVoiceline = false;
                 }
             }
 
@@ -79,7 +107,11 @@ namespace Project_The_Elect
         }
         public void AudioHandler(GameTime gameTime)
         {
-
+            if(_isPlayedVoiceline == false)
+            {
+                _audioManager.PlayVoicelines(_currentDialogueIndex);
+                _isPlayedVoiceline = true;
+            }
         }
     }
 }
